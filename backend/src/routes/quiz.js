@@ -219,4 +219,48 @@ router.get('/:sessionId/results', async (req, res) => {
   }
 });
 
+// Get user quiz history
+router.get('/user/:userId/history', async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+    
+    const quizzes = await Quiz.find({ userId: req.params.userId })
+      .sort({ createdAt: -1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .select('sessionId overallScore extractedWords completedAt mode status');
+
+    const total = await Quiz.countDocuments({ userId: req.params.userId });
+
+    // Format response
+    const formattedQuizzes = quizzes.map(quiz => ({
+      sessionId: quiz.sessionId,
+      overallScore: quiz.overallScore || 0,
+      totalWords: quiz.extractedWords ? quiz.extractedWords.length : 0,
+      completedAt: quiz.completedAt,
+      createdAt: quiz.createdAt,
+      mode: quiz.mode,
+      status: quiz.status
+    }));
+
+    res.json({
+      success: true,
+      history: formattedQuizzes,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / limit)
+      }
+    });
+
+  } catch (error) {
+    console.error('Quiz history error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch quiz history'
+    });
+  }
+});
+
 module.exports = router;
