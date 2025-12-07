@@ -222,6 +222,7 @@ const Quiz = ({ showNotification }) => {
             targetWord={quiz.currentWord}
             onTranscriptReceived={handleTranscriptReceived}
             disabled={isProcessing}
+            mode={quiz.mode}
           />
         )}
 
