@@ -11,7 +11,7 @@ import {
   Stop
 } from '@mui/icons-material'
 
-const VoiceRecorder = ({ targetWord, onTranscriptReceived, disabled = false }) => {
+const VoiceRecorder = ({ targetWord, onTranscriptReceived, disabled = false, mode = 'pronounce' }) => {
   const [isRecording, setIsRecording] = useState(false)
   const [transcript, setTranscript] = useState('')
   const [error, setError] = useState(null)
@@ -149,9 +149,17 @@ const VoiceRecorder = ({ targetWord, onTranscriptReceived, disabled = false }) =
 
       {/* Instructions */}
       <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-        {!isRecording && !transcript && `Click to pronounce: "${targetWord}"`}
-        {isRecording && 'Speak clearly into your microphone'}
-        {transcript && 'Processing your pronunciation...'}
+        {!isRecording && !transcript && (
+          mode === 'spell' 
+            ? `Click and spell out the word letter by letter` 
+            : `Click to pronounce: "${targetWord}"`
+        )}
+        {isRecording && (
+          mode === 'spell'
+            ? 'Spell the word letter by letter (e.g., A-P-P-L-E)'
+            : 'Speak clearly into your microphone'
+        )}
+        {transcript && 'Processing your answer...'}
       </Typography>
     </Box>
   )
