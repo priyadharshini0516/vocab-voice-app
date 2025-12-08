@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   Box, 
   Typography, 
@@ -32,6 +32,34 @@ const Home = ({ showNotification }) => {
   const [extractedWords, setExtractedWords] = useState([])
   const [quizMode, setQuizMode] = useState('pronounce')
   const [isCreatingQuiz, setIsCreatingQuiz] = useState(false)
+  const [userStats, setUserStats] = useState(null)
+
+  useEffect(() => {
+    loadUserStats()
+  }, [])
+
+  const loadUserStats = async () => {
+    if (!user?.id) return
+    
+    try {
+      const historyResponse = await apiService.getUserQuizHistory(user.id, 1, 100)
+      if (historyResponse && historyResponse.success) {
+        const quizData = historyResponse.history
+        const completedQuizzes = quizData.filter(q => q.status === 'completed')
+        const totalWords = completedQuizzes.reduce((sum, q) => sum + (q.totalWords || 0), 0)
+        const totalScore = completedQuizzes.reduce((sum, q) => sum + (q.overallScore || 0), 0)
+        const avgScore = completedQuizzes.length > 0 ? Math.round(totalScore / completedQuizzes.length) : 0
+        
+        setUserStats({
+          totalQuizzes: completedQuizzes.length,
+          totalWords: totalWords,
+          averageScore: avgScore
+        })
+      }
+    } catch (error) {
+      console.error('Stats load error:', error)
+    }
+  }
 
   const handleWordsExtracted = (words) => {
     setExtractedWords(words)
@@ -214,19 +242,19 @@ const Home = ({ showNotification }) => {
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body2">Quizzes Completed:</Typography>
                 <Typography variant="body2" fontWeight="bold">
-                  {user?.stats?.totalWords ? Math.floor(user.stats.totalWords / 5) : 0}
+                  {userStats?.totalQuizzes || 0}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography variant="body2">Words Practiced:</Typography>
                 <Typography variant="body2" fontWeight="bold">
-                  {user?.stats?.totalWords || 0}
+                  {userStats?.totalWords || 0}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography variant="body2">Average Score:</Typography>
                 <Typography variant="body2" fontWeight="bold">
-                  {user?.stats?.averageScore || 0}%
+                  {userStats?.averageScore || 0}%
                 </Typography>
               </Box>
             </CardContent>
