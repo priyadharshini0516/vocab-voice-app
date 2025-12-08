@@ -212,21 +212,21 @@ const Home = ({ showNotification }) => {
                 Your Progress
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                <Typography variant="body2">Total Words:</Typography>
+                <Typography variant="body2">Quizzes Completed:</Typography>
+                <Typography variant="body2" fontWeight="bold">
+                  {user?.stats?.totalWords ? Math.floor(user.stats.totalWords / 5) : 0}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                <Typography variant="body2">Words Practiced:</Typography>
                 <Typography variant="body2" fontWeight="bold">
                   {user?.stats?.totalWords || 0}
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Typography variant="body2">Average Score:</Typography>
                 <Typography variant="body2" fontWeight="bold">
                   {user?.stats?.averageScore || 0}%
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant="body2">Total Attempts:</Typography>
-                <Typography variant="body2" fontWeight="bold">
-                  {user?.stats?.totalAttempts || 0}
                 </Typography>
               </Box>
             </CardContent>
