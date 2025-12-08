@@ -207,12 +207,13 @@ const Quiz = ({ showNotification }) => {
           text={quiz.currentWord}
           autoPlay={!currentAttempt}
           showControls={true}
+          mode={quiz.mode}
         />
 
         <Typography variant="h6" sx={{ mt: 2, mb: 3 }}>
           {quiz.mode === 'pronounce' 
             ? 'Listen to the word and repeat it clearly'
-            : 'Listen to the word and spell it out loud'
+            : 'Listen to the letters and spell the word'
           }
         </Typography>
 
