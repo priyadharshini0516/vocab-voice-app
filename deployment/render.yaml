@@ -20,7 +20,7 @@ services:
       - key: OPENAI_API_KEY
         sync: false # Set manually in Render dashboard
       - key: CORS_ORIGIN
-        value: https://vocab-voice-frontend.netlify.app
+        value: "*" # Allow all origins for initial testing, update with specific Vercel URL later
 
 databases:
   - name: vocab-voice-db
