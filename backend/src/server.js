@@ -67,14 +67,15 @@ app.use('/api/speech', speechRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/user', userRoutes);
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
-});
 
 // Root route
 app.get('/', (req, res) => {
   res.send('Vocab Voice API is running 🚀');
+});
+
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
 
