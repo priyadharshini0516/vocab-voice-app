@@ -70,8 +70,10 @@ app.use('/api/user', userRoutes);
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Vocab Voice API is running 🚀');
+  console.log("ROOT HIT");
+  res.send("ROOT WORKING");
 });
+
 
 // Health check
 app.get('/health', (req, res) => {
