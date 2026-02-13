@@ -20,7 +20,8 @@ services:
       - key: OPENAI_API_KEY
         sync: false # Set manually in Render dashboard
       - key: CORS_ORIGIN
-        value: "*" # Allow all origins for initial testing, update with specific Vercel URL later
+        value: "*" # AExited with status 127
+==> Common ways to troubleshoot your deploy: https://render.com/docs/troubleshooting-deploysllow all origins for initial testing, update with specific Vercel URL later
 
 databases:
   - name: vocab-voice-db
