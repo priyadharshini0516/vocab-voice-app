@@ -68,12 +68,10 @@ app.use('/api/quiz', quizRoutes);
 app.use('/api/user', userRoutes);
 
 
-// Root route
+// Root route (PLACE HERE)
 app.get('/', (req, res) => {
-  console.log("ROOT HIT");
-  res.send("ROOT WORKING");
+  res.send('Vocab Voice API is running 🚀');
 });
-
 
 // Health check
 app.get('/health', (req, res) => {
